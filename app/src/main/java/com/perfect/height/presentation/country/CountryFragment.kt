@@ -8,6 +8,7 @@ import androidx.core.view.MenuProvider
 import androidx.core.view.get
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.perfect.height.R
@@ -19,6 +20,8 @@ class CountryFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel: CountryViewModel by viewModels()
     private val args: CountryFragmentArgs by navArgs()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.assignGender(args.myGender)
@@ -35,8 +38,7 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.chooseGender()
-        initAdapter()
+        assignAdapterToRecyclerView()
 
         requireActivity().addMenuProvider(object : MenuProvider {
             lateinit var rootMenu: Menu
@@ -52,20 +54,16 @@ class CountryFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.switchLayoutMenuItem -> {
                         viewModel.switchLayouts()
-                        switchAdapterLayout()
                         setLayoutIcon(menuItem)
                         return true
                     }
                     R.id.switchGenderMenuItem -> {
                         viewModel.switchGender()
-                        viewModel.chooseGender()
-                        initAdapter()
                         setGenderIcon(menuItem)
                         return true
                     }
                     R.id.switchCollapseMenuItem -> {
                         viewModel.switchCollapse()
-                        switchToCollapseOrCollide()
                         setCollapseOrCollisionIcon(menuItem)
                         return true
                     }
@@ -77,10 +75,33 @@ class CountryFragment : Fragment() {
                 }
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+
+        viewModel.isLinearLayoutManager.observe(viewLifecycleOwner, Observer {
+            isLinearLayout -> switchAdapterLayout()
+        })
+
+        viewModel.gender.observe(viewLifecycleOwner, Observer {
+            newGender ->
+                viewModel.chooseGender()
+                assignAdapterToRecyclerView()
+
+        })
+
+        viewModel.isCollapsed.observe(viewLifecycleOwner, Observer {
+            isCollapsed ->                           switchToCollapseOrCollide()
+
+        })
+
+        viewModel.list.observe(viewLifecycleOwner, Observer {
+            newList -> viewModel.updateAdapter(AverageHeightAdapter(
+            newList,
+            viewModel.isLinearLayoutManager.value!!, viewModel.visitedPositions)
+        )
+            assignAdapterToRecyclerView()
+        })
     }
 
-    private fun initAdapter() {
-        viewModel.initAdapter()
+    private fun assignAdapterToRecyclerView() {
         binding.countryRecyclerview.adapter = viewModel.adapter
     }
 
@@ -94,7 +115,7 @@ class CountryFragment : Fragment() {
             return
 
         menuItem.icon =
-            if (viewModel.isLinearLayoutManager)
+            if (viewModel.isLinearLayoutManager.value!!)
                 ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_grid_layout)
             else ContextCompat.getDrawable(this.requireContext(), R.drawable.ic_linear_layout)
     }
@@ -115,7 +136,7 @@ class CountryFragment : Fragment() {
 
     private fun switchToCollapseOrCollide() {
         (binding.countryRecyclerview.adapter!! as AverageHeightAdapter).collapaseOrCollide(
-            viewModel.isCollapsed
+            viewModel.isCollapsed.value!!
         )
     }
 
@@ -124,7 +145,7 @@ class CountryFragment : Fragment() {
             return
 
         menuItem.icon =
-            if (viewModel.isCollapsed) ContextCompat.getDrawable(
+            if (viewModel.isCollapsed.value!!) ContextCompat.getDrawable(
                 this.requireContext(),
                 R.drawable.ic_collide
             )

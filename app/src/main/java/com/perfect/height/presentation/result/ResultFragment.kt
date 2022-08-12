@@ -10,6 +10,7 @@ import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.perfect.height.R
@@ -44,7 +45,6 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
-        initAdapter()
 
         requireActivity().addMenuProvider(object : MenuProvider {
             lateinit var rootMenu: Menu
@@ -60,7 +60,6 @@ class ResultFragment : Fragment() {
                 return when (menuItem.itemId) {
                     R.id.switchGenderMenuItem -> {
                         viewModel.switchGender()
-                        chooseGender()
                         setGenderIcon(menuItem)
                         return true
                     }
@@ -76,55 +75,72 @@ class ResultFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
+        viewModel.gender.observe(viewLifecycleOwner, Observer { newGender ->
+            handleRecyclerViewStates()
+        })
+
+        viewModel.isTallestExpanded.observe(viewLifecycleOwner, Observer { isTallestExpanded ->
+            binding.tallestResultCountryRecyclerview.visibility =
+                if (isTallestExpanded) VISIBLE else GONE
+        })
+
+        viewModel.isShortestExpanded.observe(viewLifecycleOwner, Observer { isShortestExpanded ->
+            binding.shortestResultCountryRecyclerview.visibility =
+                if (isShortestExpanded) VISIBLE else GONE
+
+        })
+
+        viewModel.tallerThanCountryHeights.observe(viewLifecycleOwner, Observer {
+            tallerAdapter = ResultCountryAdapter(it)
+            binding.tallestResultCountryRecyclerview.adapter = tallerAdapter
+
+        })
+
+        viewModel.shorterThanCountryHeights.observe(viewLifecycleOwner, Observer {
+            shorterAdapter = ResultCountryAdapter(it)
+            binding.shortestResultCountryRecyclerview.adapter = shorterAdapter
+        })
+
+
     }
 
 
     private fun setupViews() {
         binding.tallestHeightTextview.setOnClickListener {
-            binding.tallestResultCountryRecyclerview.visibility =
-                if (viewModel.isTallestExpanded) GONE else VISIBLE
             viewModel.switchCollapseMode(true)
         }
 
         binding.shortestHeightTextview.setOnClickListener {
-            binding.shortestResultCountryRecyclerview.visibility =
-                if (viewModel.isShortestExpanded) GONE else VISIBLE
             viewModel.switchCollapseMode(false)
         }
     }
 
-    private fun initAdapter() {
+    private fun handleRecyclerViewStates() {
         viewModel.initAdapter()
 
-        if (viewModel.shorterThanCountryHeights.isEmpty()) {
+        if (viewModel.shorterThanCountryHeights.value!!.isEmpty()) {
             binding.shortestHeightTextview.visibility = GONE
             binding.shortestResultCountryRecyclerview.visibility = GONE
         } else {
             binding.shortestHeightTextview.visibility = VISIBLE
 
             binding.shortestResultCountryRecyclerview.visibility =
-                if (viewModel.isShortestExpanded) VISIBLE else GONE
+                if (viewModel.isShortestExpanded.value!!) VISIBLE else GONE
 
         }
-        if (viewModel.tallerThanCountryHeights.isEmpty()) {
+        if (viewModel.tallerThanCountryHeights.value!!.isEmpty()) {
             binding.tallestHeightTextview.visibility = GONE
             binding.tallestResultCountryRecyclerview.visibility = GONE
         } else {
             binding.tallestHeightTextview.visibility = VISIBLE
             binding.tallestResultCountryRecyclerview.visibility =
-                if (viewModel.isTallestExpanded) VISIBLE else GONE
+                if (viewModel.isTallestExpanded.value!!) VISIBLE else GONE
         }
 
-
-        tallerAdapter = ResultCountryAdapter(viewModel.tallerThanCountryHeights)
-        shorterAdapter = ResultCountryAdapter(viewModel.shorterThanCountryHeights)
-        binding.shortestResultCountryRecyclerview.adapter = shorterAdapter
-        binding.tallestResultCountryRecyclerview.adapter = tallerAdapter
 
     }
 
     private fun chooseGender() {
-        initAdapter()
     }
 
     private fun setGenderIcon(menuItem: MenuItem?) {
@@ -132,7 +148,7 @@ class ResultFragment : Fragment() {
             return
 
         menuItem.icon =
-            if (viewModel.gender == GENDER_MALE) ContextCompat.getDrawable(
+            if (viewModel.gender.value!! == GENDER_MALE) ContextCompat.getDrawable(
                 this.requireContext(),
                 R.drawable.ic_female
             )

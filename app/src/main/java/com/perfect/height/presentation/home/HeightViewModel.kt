@@ -1,5 +1,7 @@
 package com.perfect.height.presentation.home
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.perfect.height.data.CountryDataSource
 import com.perfect.height.data.CountryDataSource.Companion.SHORTEST_HEIGHT_INDEX_FOR_MEN
@@ -9,17 +11,17 @@ import com.perfect.height.data.CountryDataSource.Companion.TALLEST_HEIGHT_INDEX_
 import com.perfect.height.utils.GENDER_MALE
 
 class HeightViewModel : ViewModel() {
-    private var _result: String
-    val result: String
+    private val _result: MutableLiveData<String> = MutableLiveData()
+    val result: LiveData<String>
         get() = _result
 
-    private var _gender: Int
-    val gender: Int
+    private val _gender: MutableLiveData<Int> = MutableLiveData()
+    val gender: LiveData<Int>
         get() = _gender
 
     init {
-        _gender = GENDER_MALE // DEFAULT
-        _result = ""
+        _gender.value = GENDER_MALE // DEFAULT
+        _result.value = ""
     }
 
 
@@ -34,7 +36,7 @@ class HeightViewModel : ViewModel() {
             CountryDataSource.countryAverageCountryHeights[SHORTEST_HEIGHT_INDEX_FOR_WOMEN].height.height
 
         if (gender == GENDER_MALE) {
-            _result = if (heightInCm >= tallestAverageForMen) {
+            _result.value = if (heightInCm >= tallestAverageForMen) {
                 "You are taller than the tallest average of male"// Tallest Male
             } else if (heightInCm < shortestAverageForMen) {
                 "Sadly, You are shorter than the shortest average male" // Shortest Male
@@ -43,7 +45,7 @@ class HeightViewModel : ViewModel() {
                 "You're in the middle, ${getRatio(heightInCm, gender)}"
             }
         } else {
-            _result = if (heightInCm >= tallestAverageForWomen) {
+            _result.value = if (heightInCm >= tallestAverageForWomen) {
                 "You are taller than the highest average of female"// Tallest Male
             } else if (heightInCm < shortestAverageForWomen) {
                 "Sadly, You are shorter than the lowest average female" // Shortest Male
@@ -79,6 +81,6 @@ class HeightViewModel : ViewModel() {
 
 
     fun updateGender(gender: Int) {
-        _gender = gender
+        _gender.value = gender
     }
 }

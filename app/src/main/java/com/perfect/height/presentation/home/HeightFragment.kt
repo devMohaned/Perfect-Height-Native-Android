@@ -32,59 +32,50 @@ class HeightFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViews()
+
+        viewModel.gender.observe(viewLifecycleOwner) { newGender ->
+            saveGenderToSharedPrefs()
+            if (viewModel.gender.value == GENDER_MALE) {
+                binding.maleGenderImageview.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        R.color.primaryDarkColor
+                    )
+                )
+                binding.femaleGenderImageview.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        android.R.color.transparent
+                    )
+                )
+            } else {
+                binding.femaleGenderImageview.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        R.color.secondaryDarkColor
+                    )
+                )
+                binding.maleGenderImageview.setBackgroundColor(
+                    ContextCompat.getColor(
+                        this.requireContext(),
+                        android.R.color.transparent
+                    )
+                )
+            }
+
+        }
     }
 
 
     private fun setupViews() {
         viewModel.updateGender(readGenderToSharedPrefs())
-        if (viewModel.gender == GENDER_MALE) {
-            binding.maleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    R.color.primaryDarkColor
-                )
-            )
-        } else {
-            binding.femaleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    R.color.secondaryDarkColor
-                )
-            )
-        }
+
         binding.maleGenderImageview.setOnClickListener {
             viewModel.updateGender(GENDER_MALE)
-            binding.femaleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    android.R.color.transparent
-                )
-            )
-            binding.maleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    R.color.primaryDarkColor
-                )
-            )
-
-            saveGenderToSharedPrefs()
 
         }
         binding.femaleGenderImageview.setOnClickListener {
             viewModel.updateGender(GENDER_FEMALE)
-            binding.femaleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    R.color.secondaryDarkColor
-                )
-            )
-            binding.maleGenderImageview.setBackgroundColor(
-                ContextCompat.getColor(
-                    this.requireContext(),
-                    android.R.color.transparent
-                )
-            )
-            saveGenderToSharedPrefs()
         }
 
 
@@ -93,8 +84,8 @@ class HeightFragment : Fragment() {
                 hideKeyboard()
                 val heightInCm = (binding.heightEditText.text.toString()).toFloat()
                 binding.heightTextInput.error = null
-                viewModel.performPerfection(heightInCm, viewModel.gender)
-                createDialog(heightInCm, viewModel.gender, viewModel.result).show()
+                viewModel.performPerfection(heightInCm, viewModel.gender.value!!)
+                createDialog(heightInCm, viewModel.gender.value!!, viewModel.result.value!!).show()
             } catch (exception: NumberFormatException) {
                 binding.heightTextInput.error = getString(R.string.incorrect_number)
             }
@@ -103,7 +94,7 @@ class HeightFragment : Fragment() {
 
         binding.viewMoreButton.setOnClickListener {
             val action =
-                HeightFragmentDirections.actionHeightFragmentToCountryFragment(viewModel.gender)
+                HeightFragmentDirections.actionHeightFragmentToCountryFragment(viewModel.gender.value!!)
             findNavController().navigate(action)
         }
     }
@@ -131,7 +122,7 @@ class HeightFragment : Fragment() {
         )
 
         with(sharedPref!!.edit()) {
-            putInt(getString(R.string.gender_key), viewModel.gender)
+            putInt(getString(R.string.gender_key), viewModel.gender.value!!)
             apply()
         }
     }
