@@ -1,35 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="@dimen/margin_normal"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/countryFlagImageview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="@dimen/margin_normal"
+    <data>
+    <variable
+        name="country"
+        type="com.perfect.height.models.Country" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:maxWidth="@dimen/country_max_width"
-        tools:ignore="ContentDescription"
-        tools:src="@drawable/ic_netherlands"
-        />
+        android:layout_marginBottom="@dimen/margin_normal">
 
-    <TextView
-        android:id="@+id/countryNameTextview"
-        app:layout_constraintStart_toEndOf="@id/countryFlagImageview"
-        app:layout_constraintTop_toTopOf="@id/countryFlagImageview"
-        app:layout_constraintBottom_toBottomOf="@id/countryFlagImageview"
-        android:layout_marginTop="@dimen/margin_normal"
-        android:layout_marginBottom="@dimen/margin_normal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
-        tools:text="Netherlands"
-        />
+        <ImageView
+            app:imageResource="@{country.flag}"
+            android:id="@+id/countryFlagImageview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/margin_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:maxWidth="@dimen/country_max_width"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/ic_netherlands" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/countryNameTextview"
+            app:layout_constraintStart_toEndOf="@id/countryFlagImageview"
+            app:layout_constraintTop_toTopOf="@id/countryFlagImageview"
+            app:layout_constraintBottom_toBottomOf="@id/countryFlagImageview"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{country.name}"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            tools:text="Netherlands" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

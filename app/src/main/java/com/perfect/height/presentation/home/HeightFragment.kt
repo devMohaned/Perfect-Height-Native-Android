@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,45 +26,16 @@ class HeightFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHeightBinding.inflate(inflater, container, false)
+        _binding = DataBindingUtil.inflate(inflater,R.layout.fragment_height,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.heightViewModel = viewModel
         setupViews()
 
-        viewModel.gender.observe(viewLifecycleOwner) { newGender ->
-            saveGenderToSharedPrefs()
-            if (viewModel.gender.value == GENDER_MALE) {
-                binding.maleGenderImageview.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.primaryDarkColor
-                    )
-                )
-                binding.femaleGenderImageview.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        android.R.color.transparent
-                    )
-                )
-            } else {
-                binding.femaleGenderImageview.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        R.color.secondaryDarkColor
-                    )
-                )
-                binding.maleGenderImageview.setBackgroundColor(
-                    ContextCompat.getColor(
-                        this.requireContext(),
-                        android.R.color.transparent
-                    )
-                )
-            }
-
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
     }
 
 
@@ -72,10 +44,12 @@ class HeightFragment : Fragment() {
 
         binding.maleGenderImageview.setOnClickListener {
             viewModel.updateGender(GENDER_MALE)
+            saveGenderToSharedPrefs()
 
         }
         binding.femaleGenderImageview.setOnClickListener {
             viewModel.updateGender(GENDER_FEMALE)
+            saveGenderToSharedPrefs()
         }
 
 

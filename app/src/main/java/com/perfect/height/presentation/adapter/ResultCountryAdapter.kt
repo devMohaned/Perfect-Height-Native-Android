@@ -6,6 +6,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.perfect.height.databinding.ItemResultBinding
+import com.perfect.height.models.Country
 import com.perfect.height.models.CountryHeight
 
 class ResultCountryAdapter(
@@ -13,16 +14,12 @@ class ResultCountryAdapter(
     RecyclerView.Adapter<ResultCountryAdapter.ViewHolder>() {
 
 
-    class ViewHolder(binding: ItemResultBinding) : RecyclerView.ViewHolder(binding.root) {
-        val countryNameTextView: TextView
-        val countryHeightTextView: TextView
-        val countryFlag: ImageView
+    class ViewHolder(private val binding: ItemResultBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            countryFlag = binding.countryFlagImageview
-            countryNameTextView = binding.countryNameTextview;
-            countryHeightTextView = binding.countryHeightTextview;
+        fun bind(countryHeight: CountryHeight){
+            binding.countryHeight = countryHeight
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,10 +30,8 @@ class ResultCountryAdapter(
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.countryFlag.setImageResource(dataSet[position].country.flag)
-        viewHolder.countryNameTextView.text = dataSet[position].country.name
-        viewHolder.countryHeightTextView.text =
-            "(" + dataSet[position].height.toInt().toString() + " CM)"
+        val countryHeight = dataSet[position]
+        viewHolder.bind(countryHeight)
     }
 
     override fun getItemCount() = dataSet.size

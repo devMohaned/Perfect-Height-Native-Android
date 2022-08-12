@@ -13,6 +13,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.perfect.height.R
 import com.perfect.height.databinding.FragmentResultBinding
 import com.perfect.height.presentation.adapter.ResultCountryAdapter
@@ -113,6 +115,18 @@ class ResultFragment : Fragment() {
         binding.shortestHeightTextview.setOnClickListener {
             viewModel.switchCollapseMode(false)
         }
+
+        val divider =  DividerItemDecoration(
+            activity,
+            LinearLayoutManager.VERTICAL
+        )
+        binding.tallestResultCountryRecyclerview.addItemDecoration(
+            divider
+        )
+
+        binding.shortestResultCountryRecyclerview.addItemDecoration(
+            divider
+        )
     }
 
     private fun handleRecyclerViewStates() {
@@ -138,9 +152,6 @@ class ResultFragment : Fragment() {
         }
 
 
-    }
-
-    private fun chooseGender() {
     }
 
     private fun setGenderIcon(menuItem: MenuItem?) {

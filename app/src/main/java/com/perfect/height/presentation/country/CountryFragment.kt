@@ -11,6 +11,8 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.perfect.height.R
 import com.perfect.height.databinding.FragmentCountryBinding
 import com.perfect.height.presentation.adapter.AverageHeightAdapter
@@ -38,6 +40,7 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupViews()
         assignAdapterToRecyclerView()
 
         requireActivity().addMenuProvider(object : MenuProvider {
@@ -99,6 +102,15 @@ class CountryFragment : Fragment() {
         )
             assignAdapterToRecyclerView()
         })
+    }
+
+    private fun setupViews(){
+        binding.countryRecyclerview.addItemDecoration(
+            DividerItemDecoration(
+                activity,
+                LinearLayoutManager.VERTICAL
+            )
+        )
     }
 
     private fun assignAdapterToRecyclerView() {

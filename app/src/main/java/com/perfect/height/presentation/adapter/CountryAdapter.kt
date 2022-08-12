@@ -14,14 +14,12 @@ import kotlinx.coroutines.NonDisposableHandle.parent
 class CountryAdapter(private val dataSet: List<Country>) :
     RecyclerView.Adapter<CountryAdapter.ViewHolder>() {
 
-    class ViewHolder(binding: ItemCountryBinding) : RecyclerView.ViewHolder(binding.root) {
-        val countryNameTextView: TextView
-        val countryFlag : ImageView
+    class ViewHolder(private val binding: ItemCountryBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            countryFlag = binding.countryFlagImageview
-            countryNameTextView = binding.countryNameTextview;
+        fun bind(country: Country){
+            binding.country = country
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -30,8 +28,8 @@ class CountryAdapter(private val dataSet: List<Country>) :
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        viewHolder.countryFlag.setImageResource(dataSet[position].flag)
-        viewHolder.countryNameTextView.text = dataSet[position].name
+        val country = dataSet[position]
+        viewHolder.bind(country)
     }
 
     override fun getItemCount() = dataSet.size
