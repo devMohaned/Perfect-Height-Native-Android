@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Perfect Height</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="maleGenderImage">Male Gender Image</string>
+    <string name="femaleGenderImage">Female Gender Image</string>
+    <string name="height_in_cm">Height in CM</string>
+    <string name="how_perfect_is_ur_height">How Perfect Is Your Height?</string>
+    <string name="perfection">Perfection?</string>
+    <string name="view_more">View More</string>
+    <string name="incorrect_number">Incorrect Number</string>
+    <string name="country_height">Country Height</string>
+    <string name="change_layout">Change Layout</string>
+    <string name="change_gender">Change Gender</string>
+    <string name="show_more_or_less">Show more or less</string>
+    <string name="view_result">View Result</string>
+    <string name="cancel">Cancel</string>
+    <string name="perfection_result">Perfection Result</string>
+    <string name="tallest">TALLEST</string>
+    <string name="taller_than">Taller than</string>
+    <string name="shorter_than">Shorter Than</string>
+    <string name="preference_file_key">com.perfect.height.PREFERENCE_FILE_KEY</string>
+    <string name="gender_key">gender_key</string>
+</resources>

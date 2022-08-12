@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.home.HeightFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/maleGenderImageview"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginTop="@dimen/margin_twice_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:contentDescription="@string/maleGenderImage"
+            android:src="@drawable/ic_male"
+            app:layout_constraintEnd_toStartOf="@+id/femaleGenderImageview"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ImageContrastCheck" />
+
+        <ImageView
+            android:id="@+id/femaleGenderImageview"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:contentDescription="@string/femaleGenderImage"
+            android:src="@drawable/ic_female"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/maleGenderImageview"
+            app:layout_constraintTop_toTopOf="@+id/maleGenderImageview"
+            tools:ignore="ImageContrastCheck" />
+
+        <TextView
+            android:id="@+id/titleTextview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:gravity="center_horizontal"
+            android:paddingStart="@dimen/margin_twice_normal"
+            android:paddingEnd="@dimen/margin_twice_normal"
+            android:text="@string/how_perfect_is_ur_height"
+            android:textAppearance="@style/Theme.Title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/femaleGenderImageview" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/heightTextInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:hint="@string/height_in_cm"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titleTextview">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/heightEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/viewMoreButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/view_more"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSecondary"
+            app:layout_constraintEnd_toStartOf="@+id/perfectHeightButton"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/perfectHeightButton"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/perfectHeightButton"
+            style="@style/Widget.Material3.Button.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_twice_normal"
+            android:text="@string/perfection"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:icon="@drawable/ic_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/viewMoreButton"
+            app:layout_constraintTop_toBottomOf="@id/heightTextInput" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

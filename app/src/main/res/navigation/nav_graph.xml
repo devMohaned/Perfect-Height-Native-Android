@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/heightFragment">
+
+    <fragment
+        android:id="@+id/heightFragment"
+        android:name="com.perfect.height.presentation.home.HeightFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_height">
+        <action
+            android:id="@+id/action_heightFragment_to_countryFragment"
+            app:destination="@id/countryFragment"
+            app:enterAnim="@anim/bottom_to_base"
+            app:exitAnim="@anim/base_to_left"
+            app:popEnterAnim="@anim/left_to_base"
+            app:popExitAnim="@anim/base_to_bottom" />
+        <action
+            android:id="@+id/action_heightFragment_to_resultFragment"
+            app:destination="@id/resultFragment"
+            app:enterAnim="@anim/right_to_base"
+            app:exitAnim="@anim/base_to_left"
+            app:popEnterAnim="@anim/left_to_base"
+            app:popExitAnim="@anim/base_to_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/countryFragment"
+        android:name="com.perfect.height.presentation.country.CountryFragment"
+        android:label="@string/country_height"
+        tools:layout="@layout/fragment_country" >
+        <argument
+            android:name="myGender"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/resultFragment"
+        android:name="com.perfect.height.presentation.result.ResultFragment"
+        android:label="@string/perfection_result"
+        tools:layout="@layout/fragment_result" >
+        <argument
+            android:name="myHeight"
+            app:argType="float"
+            android:defaultValue="-1" />
+        <argument
+            android:name="myGender"
+            app:argType="integer" />
+    </fragment>
+</navigation>

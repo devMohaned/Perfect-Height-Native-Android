@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/switchLayoutMenuItem"
+        android:title="@string/change_layout"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_grid_layout"/>
+
+
+    <item android:id="@+id/switchCollapseMenuItem"
+        android:title="@string/show_more_or_less"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_collapse"/>
+
+    <item android:id="@+id/switchGenderMenuItem"
+        android:title="@string/change_gender"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_female"/>
+
+
+
+
+</menu>
