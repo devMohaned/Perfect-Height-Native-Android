@@ -41,7 +41,6 @@ class CountryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.assignGender(args.myGender)
-        addRecyclerViewDecorator()
         assignAdapterToRecyclerView()
 
         requireActivity().addMenuProvider(object : MenuProvider {
@@ -104,15 +103,6 @@ class CountryFragment : Fragment() {
             assignAdapterToRecyclerView()
         }
 
-    }
-
-    private fun addRecyclerViewDecorator() {
-        binding.countryRecyclerview.addItemDecoration(
-            DividerItemDecoration(
-                activity,
-                LinearLayoutManager.VERTICAL
-            )
-        )
     }
 
     private fun assignAdapterToRecyclerView() {

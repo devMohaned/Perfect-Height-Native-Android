@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,7 @@ class AverageHeightAdapter(
     RecyclerView.Adapter<AverageHeightAdapter.ViewHolder>() {
 
     class ViewHolder(binding: ItemAverageHeightBinding) : RecyclerView.ViewHolder(binding.root) {
-        val averageCountryRecyclerView: RecyclerView;
+        val averageCountryRecyclerView: RecyclerView
         val averageHeightTextview: Button
 
         init {
@@ -79,9 +80,18 @@ class AverageHeightAdapter(
             TransitionManager.beginDelayedTransition(viewHolder.averageCountryRecyclerView)
             notifyItemChanged(position)
         }
+
+        viewHolder.averageCountryRecyclerView.addItemDecoration(
+            DividerItemDecoration(
+                viewHolder.itemView.context,
+                LinearLayoutManager.VERTICAL
+            )
+        )
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
+
+
 
 }
