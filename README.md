@@ -15,11 +15,8 @@ How it Works:
 
 https://user-images.githubusercontent.com/60556571/184501235-c24cca3e-639b-478d-b9f8-48b94685ff04.mp4
 
-Images
-![1](https://user-images.githubusercontent.com/60556571/184501145-34694efc-555b-456f-8839-5e1d6f4d1902.png)
-![2](https://user-images.githubusercontent.com/60556571/184501149-6b2305dc-e0bf-415d-87e9-ccf107aceb71.png)
-![3](https://user-images.githubusercontent.com/60556571/184501152-2a281cd0-6be6-4363-9bc0-555f19cba357.png)
-![4](https://user-images.githubusercontent.com/60556571/184501136-45eef922-ea6a-479c-9318-09c97211c36b.png)
 
-
-
+<img src="https://user-images.githubusercontent.com/60556571/184501511-276773f6-b792-4931-9837-41294b1b261a.png" width=30% height=30%>
+<img src="https://user-images.githubusercontent.com/60556571/184501516-99cffc06-abcb-434c-a09b-2a5602f5a349.png" width=30% height=30%>
+<img src="https://user-images.githubusercontent.com/60556571/184501526-d84be0d3-e27a-4987-985d-99554bd23306.png" width=30% height=30%>
+<img src="https://user-images.githubusercontent.com/60556571/184501508-18958cfc-8ae8-4be4-8982-06a2ddecea59.png" width=30% height=30%>
