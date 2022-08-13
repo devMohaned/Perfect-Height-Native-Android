@@ -7,8 +7,16 @@
         <variable
             name="heightViewModel"
             type="com.perfect.height.presentation.home.HeightViewModel" />
-        
 
+        <variable
+            name="heightFragment"
+            type="com.perfect.height.presentation.home.HeightFragment" />
+        <variable
+            name="genderMale"
+            type="int" />
+        <variable
+            name="genderFemale"
+            type="int" />
         
     </data>
 
@@ -33,6 +41,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/femaleGenderImageview"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="packed"
+                android:onClick="@{()-> heightFragment.genderClick(genderMale)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:background="@{heightViewModel.gender == 0 ? @color/primaryDarkColor : @android:color/transparent}"
@@ -48,6 +57,7 @@
                 android:background="@{heightViewModel.gender == 1 ? @color/secondaryDarkColor : @android:color/transparent}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
+                android:onClick="@{()-> heightFragment.genderClick(genderFemale)}"
                 app:layout_constraintStart_toEndOf="@+id/maleGenderImageview"
                 app:layout_constraintTop_toTopOf="@+id/maleGenderImageview"
                 tools:ignore="ImageContrastCheck" />
@@ -97,6 +107,7 @@
                 android:text="@string/view_more"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="?attr/colorOnSecondary"
+                android:onClick="@{() -> heightFragment.navigateToCountry()}"
                 app:layout_constraintEnd_toStartOf="@+id/perfectHeightButton"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
@@ -112,6 +123,7 @@
                 android:text="@string/perfection"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 app:icon="@drawable/ic_height"
+                android:onClick="@{() -> heightFragment.performPerfectionCalculation()}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/viewMoreButton"

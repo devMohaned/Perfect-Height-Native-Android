@@ -23,10 +23,10 @@ class CountryFragment : Fragment() {
     private val viewModel: CountryViewModel by viewModels()
     private val args: CountryFragmentArgs by navArgs()
 
+    private lateinit var adapter: AverageHeightAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.assignGender(args.myGender)
 
     }
 
@@ -40,7 +40,8 @@ class CountryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupViews()
+        viewModel.assignGender(args.myGender)
+        addRecyclerViewDecorator()
         assignAdapterToRecyclerView()
 
         requireActivity().addMenuProvider(object : MenuProvider {
@@ -79,32 +80,33 @@ class CountryFragment : Fragment() {
             }
         }, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        viewModel.isLinearLayoutManager.observe(viewLifecycleOwner, Observer {
-            isLinearLayout -> switchAdapterLayout()
-        })
+        viewModel.isLinearLayoutManager.observe(viewLifecycleOwner) {
+            switchAdapterLayout()
+        }
 
-        viewModel.gender.observe(viewLifecycleOwner, Observer {
-            newGender ->
-                viewModel.chooseGender()
-                assignAdapterToRecyclerView()
-
-        })
-
-        viewModel.isCollapsed.observe(viewLifecycleOwner, Observer {
-            isCollapsed ->                           switchToCollapseOrCollide()
-
-        })
-
-        viewModel.list.observe(viewLifecycleOwner, Observer {
-            newList -> viewModel.updateAdapter(AverageHeightAdapter(
-            newList,
-            viewModel.isLinearLayoutManager.value!!, viewModel.visitedPositions)
-        )
+        viewModel.gender.observe(viewLifecycleOwner) {
+            viewModel.chooseGender()
             assignAdapterToRecyclerView()
-        })
+
+        }
+
+        viewModel.isCollapsed.observe(viewLifecycleOwner) {
+            switchToCollapseOrCollide()
+
+        }
+
+        viewModel.list.observe(viewLifecycleOwner) { newList ->
+            adapter = AverageHeightAdapter(
+                newList,
+                viewModel.isLinearLayoutManager.value!!,
+                viewModel.visitedPositions
+            )
+            assignAdapterToRecyclerView()
+        }
+
     }
 
-    private fun setupViews(){
+    private fun addRecyclerViewDecorator() {
         binding.countryRecyclerview.addItemDecoration(
             DividerItemDecoration(
                 activity,
@@ -114,7 +116,12 @@ class CountryFragment : Fragment() {
     }
 
     private fun assignAdapterToRecyclerView() {
-        binding.countryRecyclerview.adapter = viewModel.adapter
+        if (binding.countryRecyclerview.adapter == null) adapter = AverageHeightAdapter(
+            viewModel.list.value!!,
+            viewModel.isLinearLayoutManager.value!!,
+            viewModel.visitedPositions
+        )
+        binding.countryRecyclerview.adapter = adapter
     }
 
     private fun switchAdapterLayout() {

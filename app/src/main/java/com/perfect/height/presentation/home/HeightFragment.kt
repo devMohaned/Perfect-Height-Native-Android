@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.perfect.height.R
 import com.perfect.height.databinding.FragmentHeightBinding
+import com.perfect.height.presentation.adapter.AverageHeightAdapter
 import com.perfect.height.utils.GENDER_FEMALE
 import com.perfect.height.utils.GENDER_MALE
 import com.perfect.height.utils.hideKeyboard
@@ -21,6 +22,7 @@ class HeightFragment : Fragment() {
     private var _binding: FragmentHeightBinding? = null
     private val binding get() = _binding!!
     private val viewModel: HeightViewModel by viewModels()
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,45 +34,38 @@ class HeightFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.heightViewModel = viewModel
-        setupViews()
+        viewModel.updateGender(readGenderToSharedPrefs())
+        binding.apply {
+            heightViewModel = viewModel
+            heightFragment = this@HeightFragment
+            genderMale = GENDER_MALE
+            genderFemale = GENDER_FEMALE
+            lifecycleOwner = viewLifecycleOwner
+        }
 
-        binding.lifecycleOwner = viewLifecycleOwner
     }
 
-
-    private fun setupViews() {
-        viewModel.updateGender(readGenderToSharedPrefs())
-
-        binding.maleGenderImageview.setOnClickListener {
-            viewModel.updateGender(GENDER_MALE)
-            saveGenderToSharedPrefs()
-
-        }
-        binding.femaleGenderImageview.setOnClickListener {
-            viewModel.updateGender(GENDER_FEMALE)
-            saveGenderToSharedPrefs()
-        }
-
-
-        binding.perfectHeightButton.setOnClickListener {
-            try {
-                hideKeyboard()
-                val heightInCm = (binding.heightEditText.text.toString()).toFloat()
-                binding.heightTextInput.error = null
-                viewModel.performPerfection(heightInCm, viewModel.gender.value!!)
-                createDialog(heightInCm, viewModel.gender.value!!, viewModel.result.value!!).show()
-            } catch (exception: NumberFormatException) {
-                binding.heightTextInput.error = getString(R.string.incorrect_number)
-            }
-
+    fun genderClick(gender: Int){
+        viewModel.updateGender(gender)
+        saveGenderToSharedPrefs()
+    }
+    fun performPerfectionCalculation(){
+        try {
+            hideKeyboard()
+            val heightInCm = (binding.heightEditText.text.toString()).toFloat()
+            binding.heightTextInput.error = null
+            viewModel.performPerfection(heightInCm, viewModel.gender.value!!)
+            createDialog(heightInCm, viewModel.gender.value!!, viewModel.result.value!!).show()
+        } catch (exception: NumberFormatException) {
+            binding.heightTextInput.error = getString(R.string.incorrect_number)
         }
 
-        binding.viewMoreButton.setOnClickListener {
-            val action =
-                HeightFragmentDirections.actionHeightFragmentToCountryFragment(viewModel.gender.value!!)
-            findNavController().navigate(action)
-        }
+    }
+
+    fun navigateToCountry(){
+        val action =
+            HeightFragmentDirections.actionHeightFragmentToCountryFragment(viewModel.gender.value!!)
+        findNavController().navigate(action)
     }
 
     private fun createDialog(heightInCM: Float, gender: Int, message: String): AlertDialog {

@@ -31,17 +31,13 @@ class CountryViewModel : ViewModel() {
     val visitedPositions: MutableMap<Int, Boolean>
         get() = _visitedPositions
 
-    private  var _adapter: AverageHeightAdapter
-    val adapter:AverageHeightAdapter
-    get() = _adapter
+
     init {
         _list.value = mutableListOf<AverageCountryHeight>()
         _isLinearLayoutManager.value = true
         _isCollapsed.value = false
         _gender.value = GENDER_MALE
-        _adapter = AverageHeightAdapter(
-            list.value!!,
-            isLinearLayoutManager.value!!, visitedPositions)
+
 
     }
 
@@ -75,9 +71,5 @@ class CountryViewModel : ViewModel() {
 
     fun switchCollapse() {
         _isCollapsed.value = !_isCollapsed.value!!
-    }
-
-    fun updateAdapter(adapter: AverageHeightAdapter){
-        _adapter = adapter
     }
 }
