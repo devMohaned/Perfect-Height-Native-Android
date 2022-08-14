@@ -77,15 +77,21 @@ class ResultViewModel : ViewModel() {
             _isShortestExpanded.value = !isShortestExpanded.value!!
     }
 
-
-    fun initAdapter() {
+    fun makeTallerList(){
         _tallerThanList.value = CountryDataSource.countryAverageCountryHeights.filter {
             height.value!! > it.height.height && it.height.gender == gender.value
         }
+    }
 
+    fun makeShorterList(){
         _shorterThanList.value = CountryDataSource.countryAverageCountryHeights.filter {
             height.value!! < it.height.height && it.height.gender == gender.value
         }
+    }
+
+    fun initAdapter() {
+        makeTallerList()
+        makeShorterList()
 
         _tallerThanCountryHeights.value = mutableListOf()
         tallerThanList.value!!.forEach { averageCountryHeight ->

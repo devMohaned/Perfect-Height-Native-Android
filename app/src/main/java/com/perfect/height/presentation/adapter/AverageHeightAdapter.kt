@@ -93,5 +93,4 @@ class AverageHeightAdapter(
     override fun getItemCount() = dataSet.size
 
 
-
 }

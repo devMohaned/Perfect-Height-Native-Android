@@ -46,9 +46,9 @@ class HeightViewModel : ViewModel() {
             }
         } else {
             _result.value = if (heightInCm >= tallestAverageForWomen) {
-                "You are taller than the highest average of female"// Tallest Male
+                "You are taller than the tallest average of female"// Tallest Male
             } else if (heightInCm < shortestAverageForWomen) {
-                "Sadly, You are shorter than the lowest average female" // Shortest Male
+                "Sadly, You are shorter than the shortest average female" // Shortest Male
             } else {
                 // In Between
                 "You're in the middle, ${getRatio(heightInCm, gender)}"

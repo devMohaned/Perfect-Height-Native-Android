@@ -15,7 +15,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4ClassRunner::class)
-class HeightsNavigationTest {
+class HeightInstrumentedTest {
 
     @Test
     fun testHeightsFragmentNavigation() {
@@ -25,6 +25,11 @@ class HeightsNavigationTest {
         onView(withId(R.id.viewMoreButton)).perform(ViewActions.click())
         //verify
         onView(withId(R.id.countryRecyclerview)).check(matches(isDisplayed()))
+        onView(withId(R.id.switchCollapseMenuItem)).perform(ViewActions.click())
+        onView(withId(R.id.switchCollapseMenuItem)).perform(ViewActions.click())
+        onView(withId(R.id.switchGenderMenuItem)).perform(ViewActions.click())
+        onView(withId(R.id.switchGenderMenuItem)).perform(ViewActions.click())
+        onView(withId(R.id.switchLayoutMenuItem)).perform(ViewActions.click())
 
         pressBack()
 
